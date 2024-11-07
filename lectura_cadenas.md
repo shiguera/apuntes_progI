@@ -211,7 +211,7 @@ char* fgets(char* str, int n, FILE* stream);
 Los parámetros de la función:
 
 - **char* str :** un puntero al array de caracteres donde se almacenará la lectura. El array tiene que tener la longitud suficiente para guardar los caracteres leídos, incluyendo el caracter final `\0`.
-- **int n:** El número máximo de caracters que se leerán, incluyendo el `\0`final. La función *fgets()* leerá *n-1* caracteres, dejando sitio para el `\0`final.
+- **int n:** El número máximo de caracters que se leerán, incluyendo el `\0`final. La función *fgets()* leerá *n-1* caracteres, dejando sitio para el `\0`final. Si se intenta dar a este parámetro un valor mayor que el de la cadena, el compilador genera un aviso.
 - **FILE* stream:**  un puntero a un objeto del tipo *FILE* que especifica de dónde se leerán los caracteres. Puede ser un fichero o *stdin* en el caso de leer caracteres del terminal.
 
 Si la lectura tiene éxito, la función *fgets()* devuelve un puntero al mismo array que se ha utilizado para guardar la lectura. Si se produce algún error, se devuelve NULL.
@@ -284,3 +284,7 @@ int main() {
 Ejecutando el programa y tecleando una cadena de 3 caracteres:
 
 <img title="" src="img/fgets_2.png" alt="" width="448" data-align="center">
+
+En relación con los `\n`residuales que pudiera haber en el búfer cuando se llama a *fgets()*, se dan los mismo problemas que se han comentado con *gets()*. Si antes de llamar a *fgets()* se han hecho lecturas con *scanf()*, habra que usar un *getchar()* para descartar el `\n`residual.
+
+
