@@ -123,7 +123,7 @@ int main() {
 
 La salida de este programa muestra cómo se han leído las cadenas, añadiendo un `\0`al final de lo leído y sin dejar un `\n`residual en el bufer:
 
-<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/gets_1.png" alt="" width="446" data-align="center">
+<img title="" src="img/gets_1.png" alt="" width="446" data-align="center">
 
 Ahora bien, si ya existían `\n`residuales en el bufer, porque las anteriores lecturas se hicieron con *scanf()*, la función *gets()* leerá una cadena vacía:
 
@@ -157,7 +157,7 @@ int main() {
 }
 ```
 
-<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/gets_2.png" alt="" width="466" data-align="center">
+<img title="" src="img/gets_2.png" alt="" width="466" data-align="center">
 
 En la salida se observa que el *scanf()* también añade el carácter `\0`al final de lo leído. Pero deja el `\n`residual y el siguiente *gets()* lee una cadena vacía. En la segunda cadena se ve que se ha añadido un `\0`como primer carácter de la cadena leída.
 
@@ -194,7 +194,7 @@ int main() {
 
 Si ejecutamos este código y tecleamos una cadena de 4 caracteres, se observa que *gets()* ha escrito el `\0`en la posición de memoria que hay a continuación del final de la cadena `c`. La cadena la podemos imprimir, porque sigue teniendo el `\0`final, pero lo que hubiera ahí, se lo ha cargado:
 
-<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/gets_3.png" alt="" width="475" data-align="center">
+<img title="" src="img/gets_3.png" alt="" width="475" data-align="center">
 
 Por este y otros motivos, la función *gets()* se descartó de C a partir de C11 y, a día de hoy, se recomienda utilizar *fgets()*. De hecho, cuando se compila un programa usando *gets()* el compilador emite un warning.
 
@@ -245,7 +245,7 @@ int main() {
 
 Si se ejecuta el programa y se teclea una cadena de 3 caracteres, en la cadena se guarda el `\n`final (código ASCII 10):
 
-<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/fgets_1.png" alt="" width="475" data-align="center">
+<img title="" src="img/fgets_1.png" alt="" width="475" data-align="center">
 
 Para eliminar el `\n`final, se puede usar la función *strlen()* para comprobar si el último carácter es `\n`y, si es así, sustituirlo por un `\0`.
 
@@ -283,6 +283,4 @@ int main() {
 
 Ejecutando el programa y tecleando una cadena de 3 caracteres:
 
-<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/fgets_2.png" alt="" width="448" data-align="center">
-
-
+<img title="" src="img/fgets_2.png" alt="" width="448" data-align="center">
