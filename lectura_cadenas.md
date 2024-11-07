@@ -42,7 +42,7 @@ int main() {
    printf("Segundo caracter: ");
    getchar();
    d = getchar();
-      
+
    printf("Primero: %c Segundo: %c \n", c, d);
 } 
 ```
@@ -87,7 +87,6 @@ int main() {
 
    printf("Primera: %s Segunda: %s \n", c, d);
 }
-
 ```
 
 La función *gets()* lee el último `\n`y lo descarta, añadiendo un `\0`en su lugar a la cadena leída. Por ello, se pueden hacer varias lecturas consecutivas con *gets()* sin que haya que tomar precauciones con los `\n`residuales.
@@ -106,7 +105,7 @@ void print_cadena(char* c) {
 }
 
 int main() {
-   
+
    char c[DIM]="ZZZZZZZ";
    printf("Teclea cadena:");
    gets(c);
@@ -124,7 +123,7 @@ int main() {
 
 La salida de este programa muestra cómo se han leído las cadenas, añadiendo un `\0`al final de lo leído y sin dejar un `\n`residual en el bufer:
 
-<img title="" src="file:///home/shiguera/ownCloud/Apuntes/img/2024-11-07-20-26-16-Captura%20desde%202024-11-07%2020-26-06.png" alt="" width="380" data-align="center">
+<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/gets_1.png" alt="" width="446" data-align="center">
 
 Ahora bien, si ya existían `\n`residuales en el bufer, porque las anteriores lecturas se hicieron con *scanf()*, la función *gets()* leerá una cadena vacía:
 
@@ -142,7 +141,7 @@ void print_cadena(char* c) {
 }
 
 int main() {
-   
+
    char c[DIM]="ZZZZZZZ";
    printf("Teclea cadena:");
    scanf("%s", c);
@@ -158,7 +157,7 @@ int main() {
 }
 ```
 
-<img title="" src="file:///home/shiguera/ownCloud/Apuntes/img/2024-11-07-20-30-26-Captura%20desde%202024-11-07%2020-30-07.png" alt="" width="387" data-align="center">
+<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/gets_2.png" alt="" width="466" data-align="center">
 
 En la salida se observa que el *scanf()* también añade el carácter `\0`al final de lo leído. Pero deja el `\n`residual y el siguiente *gets()* lee una cadena vacía. En la segunda cadena se ve que se ha añadido un `\0`como primer carácter de la cadena leída.
 
@@ -182,7 +181,7 @@ void print_cadena(char* c) {
 }
 
 int main() {
-   
+
    char c[DIM]="ZZZ";
    printf("Teclea cadena:");
    gets(c);
@@ -191,21 +190,99 @@ int main() {
 
    print_cadena(c);
 }
-
 ```
 
 Si ejecutamos este código y tecleamos una cadena de 4 caracteres, se observa que *gets()* ha escrito el `\0`en la posición de memoria que hay a continuación del final de la cadena `c`. La cadena la podemos imprimir, porque sigue teniendo el `\0`final, pero lo que hubiera ahí, se lo ha cargado:
 
-<img title="" src="file:///home/shiguera/ownCloud/Apuntes/img/2024-11-07-20-38-50-Captura%20desde%202024-11-07%2020-38-36.png" alt="" width="400" data-align="center">
+<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/gets_3.png" alt="" width="475" data-align="center">
 
-Por este y otro motivos, la función *gets()* se descartó de C a partir de C11 y, a día de hoy, se recomienda utilizar *fgets()*. De hecho, cuando se compila un programa usando *gets()* el compilador emite un warning.
+Por este y otros motivos, la función *gets()* se descartó de C a partir de C11 y, a día de hoy, se recomienda utilizar *fgets()*. De hecho, cuando se compila un programa usando *gets()* el compilador emite un warning.
 
+> Al escribir en memoria más alla de la longitud de la variable, el comportamiento del programa es indefinido. Puede pasar que sea a una zona de memoria del propio programa o que ni siquiera pertenezca al programa, en cuyo caso se producirá un error de ejecución. Si la zona pertenece al programa, podría ser una zona de solo lectura, con lo que también habrá error de ejecución. Finalmente, si la zona de memoria es del programa y no es de solo lectura, el resultado dependerá de si es una zona libre de la memoria o una posición que ya estaba ocupada por otra variable, cuyo contenido se verá alterado.
 
+## Lectura de cadenas con *fgets()*
 
+Es la forma recomendada para leer cadenas. La sintaxis es la siguiente:
 
+```c
+char* fgets(char* str, int n, FILE* stream);
+```
 
+Los parámetros de la función:
 
+- **char* str :** un puntero al array de caracteres donde se almacenará la lectura. El array tiene que tener la longitud suficiente para guardar los caracteres leídos, incluyendo el caracter final `\0`.
+- **int n:** El número máximo de caracters que se leerán, incluyendo el `\0`final. La función *fgets()* leerá *n-1* caracteres, dejando sitio para el `\0`final.
+- **FILE* stream:**  un puntero a un objeto del tipo *FILE* que especifica de dónde se leerán los caracteres. Puede ser un fichero o *stdin* en el caso de leer caracteres del terminal.
 
+Si la lectura tiene éxito, la función *fgets()* devuelve un puntero al mismo array que se ha utilizado para guardar la lectura. Si se produce algún error, se devuelve NULL.
 
+Quizás, el problema con *fgets()* es que no descarta el salto de línea `\n`final de la cadena, si existe. En el siguiente código se lee una cadena del terminal usando *fgets()*. 
+
+```c
+#include <stdio.h>
+
+#define DIM 8
+
+void print_cadena(char* c) {
+   printf("Cadena: ");
+   for(int i=0; i<DIM; i++) {
+      printf("%d ", c[i]);
+   }
+   printf("\n");
+}
+
+int main() {
+
+   char c[DIM]="ZZZZZZZ";
+   printf("Teclea cadena:");
+   fgets(c, DIM, stdin);
+
+   printf("Cadena: -%s- \n", c);
+
+   print_cadena(c);
+}
+```
+
+Si se ejecuta el programa y se teclea una cadena de 3 caracteres, en la cadena se guarda el `\n`final (código ASCII 10):
+
+<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/fgets_1.png" alt="" width="475" data-align="center">
+
+Para eliminar el `\n`final, se puede usar la función *strlen()* para comprobar si el último carácter es `\n`y, si es así, sustituirlo por un `\0`.
+
+La función *strlen()* pertenece a la librería *string.h*. Devuelve el número de caracteres de la cadena, excluyendo el `\0`final. Por tanto, el índice del último carácter no nulo de la cadena es `strlen(cad)-1`.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 8
+
+void print_cadena(char* c) {
+   printf("Cadena: ");
+   for(int i=0; i<DIM; i++) {
+      printf("%d ", c[i]);
+   }
+   printf("\n");
+}
+
+int main() {
+
+   char c[DIM]="ZZZZZZZ";
+   printf("Teclea cadena:");
+   fgets(c, DIM, stdin);
+
+   int ultimo_caracter = strlen(c)-1;
+   if(c[ultimo_caracter] == '\n') {
+      c[ultimo_caracter] = '\0';
+   }
+
+   printf("Cadena: -%s- \n", c);
+   print_cadena(c);
+}
+```
+
+Ejecutando el programa y tecleando una cadena de 3 caracteres:
+
+<img title="" src="file:///home/santiago/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/fgets_2.png" alt="" width="448" data-align="center">
 
 
