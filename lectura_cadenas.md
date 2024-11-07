@@ -9,7 +9,7 @@ char caracter;
 scanf(" %c", &caracter);
 ```
 
-Se puede no poner el espacio delante del formato `%c`, pero si no es la primera lectura habrá que hacer un *getchar()* previo para descartar el `\n`. 
+Se puede no poner el espacio delante del formato `%c` pero, si no es la primera lectura, habrá que hacer un *getchar()* previo para descartar el `\n`. 
 
 ```c
 #include <stdio.h>
@@ -47,13 +47,13 @@ int main() {
 } 
 ```
 
-## Lectura de cadenas
+## Lectura de cadenas con *scanf()*
 
-Se pueden hacer con *scanf()* y formato `%s`, pero habrá que tener en cuenta que para *scanf()*, los espacios indican el fin de la lectura y, por tanto, no se podrán leer cadenas que contengan espacios.
+Se pueden leer cadenas con *scanf()* y formato `%s`, pero habrá que tener en cuenta que para *scanf()*, los espacios indican el fin de la lectura y, por tanto, no se podrán leer cadenas que contengan espacios.
 
 El formato `%s`funciona como los formatos numéricos y descarta directamente los `\n`residuales. No hace falta el truco del espacio delante del formato.
 
-También hay que señalar que con *scanf()*, no hay que poner `&`delante del nombre de la variable, pues ya es un puntero:
+También hay que señalar que con *scanf()*, no hay que poner `&`delante del nombre de la variable, pues el nombre de una cadena ya es un puntero:
 
 ```c
 #include <stdio.h>
@@ -70,6 +70,10 @@ int main() {
    printf("Primera: %s Segunda: %s \n", c, d);
 }
 ```
+
+
+
+## Lectura de cadenas con *gets()*
 
 También se pueden leer cadenas con *gets()*. En este caso, se pueden leer cadenas con espacios, el final de la cadena lo marcan los `\n`o los `EOF` (*CTRL+Z*). 
 
@@ -161,7 +165,7 @@ int main() {
 
 En la salida se observa que el *scanf()* también añade el carácter `\0`al final de lo leído. Pero deja el `\n`residual y el siguiente *gets()* lee una cadena vacía. En la segunda cadena se ve que se ha añadido un `\0`como primer carácter de la cadena leída.
 
-Otro de los problemas de *gets()* es que se puede producir desbordamiento del búfer, si la cadena tecleada es mayor que la cadena que había preparada en memoria. En estos casos, *gets()* escribirá más alla de las posiciones de la cadena en memoria, pudiendo sobreescribir cualquier cosa que hubiera en esas posiciones de memoria.
+Otro de los problemas de *gets()* es que se puede producir **desbordamiento del búfer**, si la cadena tecleada es mayor que la cadena que había preparada en memoria. En estos casos, *gets()* escribirá más alla de las posiciones de la cadena en memoria, pudiendo sobreescribir cualquier cosa que hubiera en esas posiciones de memoria.
 
 En el siguiente código se ha modificado la función *print_cadena()* para que escriba un carácter más alla de la longitud de la cadena:
 
