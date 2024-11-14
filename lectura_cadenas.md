@@ -71,8 +71,6 @@ int main() {
 }
 ```
 
-
-
 ## Lectura de cadenas con *gets()*
 
 También se pueden leer cadenas con *gets()*. En este caso, se pueden leer cadenas con espacios, el final de la cadena lo marcan los `\n`o los `EOF` (*CTRL+Z*). 
@@ -290,5 +288,3 @@ Ejecutando el programa y tecleando una cadena de 3 caracteres:
 <img title="" src="img/fgets_2.png" alt="" width="448" data-align="center">
 
 En relación con los `\n`residuales que pudiera haber en el búfer cuando se llama a *fgets()*, se dan los mismo problemas que se han comentado con *gets()*. Si antes de llamar a *fgets()* se han hecho lecturas con *scanf()*, habra que usar un *getchar()* para descartar el `\n`residual.
-
-
