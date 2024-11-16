@@ -161,7 +161,7 @@ Aunque la solución de utilizar la codificación 1252 en el editor y en el termi
 
 La imagen siguiente muestra el contenido del ejemplo anterior, guardado en codificación 1252,  cuando se sube a un repositorio de Github:
 
-<img title="" src="file:///home/shiguera/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/printf_1252_3.PNG" alt="" width="520" data-align="center">
+<img title="" src="img/printf_1252_3.PNG" alt="" width="520" data-align="center">
 
 Observa que el entrecomillado no se ve bien. Hay que tener en cuenta una cosa: los ficheros de texto no tienen ninguna indicación de la codificación que se ha utilizado para escribirlo. No es posible saber con seguridad qué codificación de caracteres se ha utilizado para crear un fichero de texto. En la Web se da por hecho que todos los contenidos están codificados en UTF-8. Si se usa otra codificación, lo más probable es que haya problemas.
 
@@ -186,17 +186,25 @@ int main() {
 
 Para el fichero fuente se ha usado VSCode con codificación UTF-8 y se ha ejecutado en el terminal de un ordenador con sistema operativo Linux Ubuntu.  La salida del programa es la siguiente:
 
-<img title="" src="file:///home/shiguera/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/printf_linux_1.PNG" alt="" width="437" data-align="center">
+<img title="" src="img/printf_linux_1.PNG" alt="" width="437" data-align="center">
 
 Lo que no se puede hacer tampoco en Linux ni en Mac es asignar un carácter multi-byte a una variable del tipo *char*. También se tendrán los mismos problemas que se han comentado en Windows si se utilizan funciones como *strlen()* o se intenta acceder a un carácter individual de una cadena que tenga algunos caracteres especiales utilizando un índice.
 
 ## El tipo *wchar_t* en C
 
+> El tipo **`wchar_t`** es un tipo de carácter ancho definido por la implementación. En el compilador de Microsoft, representa un carácter ancho de 16 bits que se usa para almacenar Unicode codificado como UTF-16LE, que es el tipo de carácter nativo en los sistemas operativos Windows. Las versiones de carácter ancho de las funciones de la biblioteca Universal C Runtime (UCRT) usan **`wchar_t`** y sus tipos de puntero y de matriz como parámetros y valores devueltos, al igual que las versiones de carácter ancho de la API nativa de Windows. (Fuente [char, wchar_t, char8_t, char16_t, char32_t | Microsoft Learn](https://learn.microsoft.com/es-es/cpp/cpp/char-wchar-t-char16-t-char32-t?view=msvc-170) )
+
+> En Windows, para que funcionen de manera correcta los códigos UTF-8 que se usan en los ejemplos de este apartado, es necesario activar la compatibilidad con UTF-8 activando la opción de configuración:
+> 
+> ***Configuración Regional -> Idioma -> Idioma Administrativo -> Cambiar configuración Regional del Sistema -> Versión Beta: Use UTF-8*** 
+> 
+> Además, habrá que activar la página de códigos 65001 en el terminal
+
 El lenguaje C ofrece tres tipos de tratamientos para los distintos juegos de caracteres:
 
 - Caracteres de 1 byte: es el tipo *char* que permite dar cobertura a la codificación ASCII y a las codificaciones ASCII extendidas.
 
-- Caracteres anchos: es el tipo *wchar_t* que permite dar cobertura a la codificaciones Unicode.
+- Caracteres anchos: es el tipo *wchar_t* que permite dar cobertura a la codificación UTF-8.
 
 - Caracteres multi-byte: permite resolver el problema asociado con otras codificaciones no Unicode que utilizan más de un byte para representar los caracteres.
 
@@ -208,9 +216,9 @@ La librería *wchar.h* ofrece funciones de nombres similares a las de las librer
 
 La siguientes figuras muestran una comparación entre las funciones de la librería *wchar.h* y sus equivalentes cuando se trabaja con caracteres tipo *char*.
 
-<img title="" src="file:///home/shiguera/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/wchar_1.png" alt="" width="384" data-align="center">
+<img title="" src="img/wchar_1.png" alt="" width="384" data-align="center">
 
-<img title="" src="file:///home/shiguera/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/wchar_2.png" alt="" width="366" data-align="center">
+<img title="" src="img/wchar_2.png" alt="" width="366" data-align="center">
 
 Para asignar valor a un carácter del tipo *wchar_t* utilizando un literal entrecomillado hay que poner la letra *L* mayúscula delante de la comilla de apertura. Igual que en el caso del tipo *char*, se utilizan comillas simples:
 
@@ -248,7 +256,7 @@ Una vez activado el entorno local, se pueden usar las funciones de entrada y sal
 
 La especificación de formato en la cadena de formato de las instrucciones de entrada y salida añade una letra `l`minúscula delante de la letra `c`o `s`, según se trate de un solo carácter o de una cadena:
 
--  `%lc`: especificación de formato de un caracter del tipo *wchar_t*.
+- `%lc`: especificación de formato de un caracter del tipo *wchar_t*.
 
 - `%ls`: especificación de formato de una cadena de caracteres del tipo *wchar_t*.
 
@@ -265,31 +273,35 @@ El siguiente ejemplo de código muestra cómo declarar literales *wchar_t* y mos
 #include <stdio.h>
 #include <locale.h>
 #include <wchar.h>
+#include <windows.h> // Solo en Windows
 
 int main() {
-   // Activar las fuentes locales
-   setlocale(LC_ALL, "");
+    // Activar las fuentes locales
+    setlocale(LC_ALL, "");
 
-   // Definir un caracter ancho por código
-   wchar_t alpha = 0x3B1;
-   wprintf(L"%lc\n", alpha);
+    // Activar UTF-8 en el terminal (solo en Windows)
+    SetConsoleOutputCP(65001);
 
-   // Definir un caracter ancho por literal
-   wchar_t interrog = L'¿';
-   wprintf(L"%lc\n", interrog);
+    // Definir un caracter ancho por código
+    wchar_t alpha = 0x3b1;
+    wprintf(L"%lc\n", alpha);
 
-   // Imprimir un literal de caracteres anchos
-   wprintf(L"Hola, ¿qué tal?\n");
+    // Definir un caracter ancho por literal
+    wchar_t interrog = L'¿';
+    wprintf(L"%lc\n", interrog);
 
-   // Imprimir una cadena de caracteres anchos
-   wchar_t* cad = L"¡Vaya año que llevamos!"; 
-   wprintf(L"%ls\n", cad);
+    // Imprimir un literal de caracteres anchos
+    wprintf(L"Hola, ¿qué tal?\n");
+
+    // Imprimir una cadena de caracteres anchos
+    wchar_t* cad = L"¡Vaya año que llevamos!"; 
+    wprintf(L"%ls\n", cad);
 }
 ```
 
 Observe la letra `L` mayúscula que se añade antes de las cadenas y la letra `l` minúscula delante del especificador de formato. La salida por pantalla sería la siguiente:
 
-<img title="" src="file:///home/shiguera/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/wchar_3.png" alt="" width="337" data-align="center">
+<img title="" src="img/wchar_3.png" alt="" width="337" data-align="center">
 
 También se puede hacer entrada de caracteres individuales o de cadenas del tipo *wchar_t* utilizando las funciones *wscanf()* o *fgetws()*:
 
@@ -341,4 +353,4 @@ int main() {
 
 La salida por pantalla:
 
-<img title="" src="file:///home/shiguera/ownCloud/AAA_Teleco/2024-25/1_Programacion_I/6.-RepoGithub/img/wchar_4.png" alt="" width="334" data-align="center">
+<img title="" src="img/wchar_4.png" alt="" width="334" data-align="center">
