@@ -101,7 +101,7 @@ La salida de pantalla:
 
 Se puede ver que los tamaños de *main.exe* y *main2.exe* son iguales: 137.8 Kb.
 
-Esta técnica se puede utilizar también pàra distribuir la librería sin necesidad de proporcionar el código fuente de la misma, símplemente tengo que proporcionar el fichero `.o` y el fichero `.h`` .
+Esta técnica se puede utilizar también pàra distribuir la librería sin necesidad de proporcionar el código fuente de la misma, símplemente tengo que proporcionar el fichero `.o` y el fichero `.h`.
 
 También es útil, en programas extensos con muchos módulos, para no tener que compilar todo cada vez que quiero generar el programa. En esos casos, voy teniendo módulos compilados y, cuando construyo, solo recompilo lo que haya cambiado. Para gestionar ese tipo de proyectos se suele utilizar una herramienta de construcción. La más conocida en C es [make](https://www.gnu.org/software/make/).
 
@@ -146,5 +146,3 @@ gcc main2.c -L./ -llibreria -o main2.exe
 El parámetro `-L./` le dice al compilador que las librerías para enlazar están en el directorio actual. El parámetro `-llibreria` le dice que enlace (*link*) una librería que se llama `libreria`.
 
 Al compilar emitirá unos avisos *warnings* indicando que en el programa principal se hacen llamadas implícitas a funciones que no tienen el correspondiente *.h*, pero al ejecutar el programa, funciona.
-
-
