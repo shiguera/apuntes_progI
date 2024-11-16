@@ -1,6 +1,24 @@
 # Compilación de librerías
 
-Vamos a ver varias formas de compilar un programa que utiliza una librería externa. El código del programa es *main.c* y el de la librería son los ficheros *libreria.h* y *libreria.c*.
+El proceso que llamamos comunmente *compilar* un programa, en realidad consta de varios procesos independientes y sucesivos. Cuando ejecutamos el compilador *gcc*, según los parámetros que le pasemos, ejecuta uno o más de esos procesos.
+
+En lo que se refiere a este documento, los dos procesos principales son *compilar*, propiamente dicho y *enlazar*.
+
+*Compilar* es traducir a código máquina un módulo de código fuente. *Enlazar (link)* consiste en unir uno o más módulos compilados para crear el ejecutable.
+
+Para compilar un módulo de código fuente y obtener el código máquina correspondiente se utliza el parámetro `-c`del compilador. Por ejemplo:
+
+```shell
+gcc -c miprograma.c
+```
+
+Si no se producen errores de compilación, el resultado de la instrucción anterior será la obtención del fichero *miprograma.o*, el código máquina de *miprograma.c*. Lla extensión `.o` se refiere a *object*, y al fichero se le suele llamar el *código objeto* del módulo en cuestión.
+
+El proceso de enlazado consiste en unir uno o más ficheros objeto para crear el ejecutable.
+
+Cuando se llama a *gcc*, realiza, además de otros procesos, el compilado de los módulos fuente y el enlazado de todos los módulos que se le pasan: módulos fuente y módulos objeto.
+
+Se explican a continuación varias formas de compilar un programa que utiliza una librería externa. El código del programa es *main.c* y el de la librería son los ficheros *libreria.h* y *libreria.c*.
 
 El código de *main.c*
 
