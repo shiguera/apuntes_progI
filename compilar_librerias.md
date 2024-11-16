@@ -95,9 +95,9 @@ Se observa que el ejecutable, *main.exe*, ocupa 137.8 Kb.
 
 ## Forma 2: Utilizando el compilado de la librería
 
-Es posible que la librería sea un desarrollo independiente que la utilizo en varios programas. Para no tener que compilar la librería cada vez, puedo tenerla compilada de manera independiente y luego símplemente enlazarla con mis programas.
+Es posible que la librería sea un desarrollo independiente que utilizo en varios programas. Para no tener que compilar la librería cada vez, puedo tenerla compilada de manera independiente y luego símplemente enlazarla con mis programas.
 
-Para ello, compilo la librería de manera independiente, con la opción `-c` , que compila y genera el ensamblador, pero no enlaza, genera un bloque compilado. Si no se especifica otro nombre de salida, el fichero tiene extensión `.o`.
+Para ello, compilo la librería de manera independiente, con la opción `-c` , que compila y genera el código objeto, pero no enlaza, genera un bloque compilado. Si no se especifica otro nombre de salida, el fichero tiene extensión `.o`.
 
 ```shell
 gcc -c libreria.c
