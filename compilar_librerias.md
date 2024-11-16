@@ -12,11 +12,11 @@ Para compilar un módulo de código fuente y obtener el código máquina corresp
 gcc -c miprograma.c
 ```
 
-Si no se producen errores de compilación, el resultado de la instrucción anterior será la obtención del fichero *miprograma.o*, el código máquina de *miprograma.c*. Lla extensión `.o` se refiere a *object*, y al fichero se le suele llamar el *código objeto* del módulo en cuestión.
+Si no se producen errores de compilación, el resultado de la instrucción anterior será la obtención del fichero *miprograma.o*, el código máquina de *miprograma.c*. La extensión `.o` se refiere a *object* y al fichero se le suele llamar el *código objeto* del módulo en cuestión.
 
 El proceso de enlazado consiste en unir uno o más ficheros objeto para crear el ejecutable.
 
-Cuando se llama a *gcc*, realiza, además de otros procesos, el compilado de los módulos fuente y el enlazado de todos los módulos que se le pasan: módulos fuente y módulos objeto.
+Cuando se llama a *gcc*, se realizan varios procesos, entre ellos,  el compilado de los módulos fuente y el enlazado de todos los módulos que se le pasan: módulos fuente y módulos objeto.
 
 Se explican a continuación varias formas de compilar un programa que utiliza una librería externa. El código del programa es *main.c* y el de la librería son los ficheros *libreria.h* y *libreria.c*.
 
